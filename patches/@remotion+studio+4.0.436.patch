@@ -1,0 +1,56 @@
+diff --git a/node_modules/@remotion/studio/dist/components/Timeline/TimelineDragHandler.js b/node_modules/@remotion/studio/dist/components/Timeline/TimelineDragHandler.js
+index 34afc90..49a480a 100644
+--- a/node_modules/@remotion/studio/dist/components/Timeline/TimelineDragHandler.js
++++ b/node_modules/@remotion/studio/dist/components/Timeline/TimelineDragHandler.js
+@@ -28,7 +28,8 @@ const container = {
+     WebkitUserSelect: 'none',
+     position: 'absolute',
+     height: '100%',
+-    top: 0,
++    top: -1,
++    left: -66,
+ };
+ const style = {
+     width: '100%',
+diff --git a/node_modules/@remotion/studio/dist/esm/chunk-x88z6n54.js b/node_modules/@remotion/studio/dist/esm/chunk-x88z6n54.js
+index f3f34d1..00e22c7 100644
+--- a/node_modules/@remotion/studio/dist/esm/chunk-x88z6n54.js
++++ b/node_modules/@remotion/studio/dist/esm/chunk-x88z6n54.js
+@@ -20914,7 +20914,8 @@ var container39 = {
+   WebkitUserSelect: "none",
+   position: "absolute",
+   height: "100%",
+-  top: 0
++  top: -1,
++  left: -66
+ };
+ var style10 = {
+   width: "100%",
+diff --git a/node_modules/@remotion/studio/dist/esm/internals.mjs b/node_modules/@remotion/studio/dist/esm/internals.mjs
+index 7d20746..f369880 100644
+--- a/node_modules/@remotion/studio/dist/esm/internals.mjs
++++ b/node_modules/@remotion/studio/dist/esm/internals.mjs
+@@ -20933,7 +20933,8 @@ var container39 = {
+   WebkitUserSelect: "none",
+   position: "absolute",
+   height: "100%",
+-  top: 0
++  top: -1,
++  left: -66
+ };
+ var style10 = {
+   width: "100%",
+diff --git a/node_modules/@remotion/studio/dist/esm/previewEntry.mjs b/node_modules/@remotion/studio/dist/esm/previewEntry.mjs
+index ebe1bf0..cf40117 100644
+--- a/node_modules/@remotion/studio/dist/esm/previewEntry.mjs
++++ b/node_modules/@remotion/studio/dist/esm/previewEntry.mjs
+@@ -21590,7 +21590,8 @@ var container40 = {
+   WebkitUserSelect: "none",
+   position: "absolute",
+   height: "100%",
+-  top: 0
++  top: -1,
++  left: -66
+ };
+ var style10 = {
+   width: "100%",

@@ -1,0 +1,38 @@
+{
+  "animation": "op1",
+  "input": {
+    "baseUrl": "https://picsum.photos/",
+    "listing": {
+      "imobname": "Estate Elite",
+      "propertyCodes": "REF-12345",
+      "prices": { "Venda": "R$ 2.500.000" },
+      "address": "Av. Paulista, 1000",
+      "city": "São Paulo",
+      "state": "SP",
+      "client": {
+        "phone": "+55 11 99999-9999",
+        "email": "contato@estateelite.com",
+        "website": "www.estateelite.com",
+        "instagram": "@estateelite"
+      },
+      "carousel_images": [
+        "https://picsum.photos/800/800?random=1",
+        "https://picsum.photos/800/800?random=2",
+        "https://picsum.photos/800/800?random=3"
+      ],
+      "infoCards": [
+        { "label": "Quartos", "value": "3", "icon": "bed" },
+        { "label": "Banheiros", "value": "2", "icon": "bathtub" },
+        { "label": "Área", "value": "120 m²", "icon": "square_foot" },
+        { "label": "Vagas", "value": "2", "icon": "directions_car" }
+      ],
+      "amenitiesList": [
+        { "name": "Piscina", "icon": "pool" },
+        { "name": "Churrasqueira", "icon": "outdoor_grill" },
+        { "name": "Academia", "icon": "fitness_center" },
+        { "name": "Salão de jogos", "icon": "sports_esports" }
+      ]
+    }
+  },
+  "output": "out/video.mp4"
+}

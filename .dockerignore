@@ -1,0 +1,8 @@
+node_modules
+build
+.git
+.DS_Store
+out
+*.mp4
+.env
+.env.*
