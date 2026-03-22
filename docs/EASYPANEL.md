@@ -47,3 +47,14 @@ git push -u origin main
 ```
 
 Certifique-se de **não** commitar `node_modules/`, `out/` nem `.env` (já cobertos pelo `.gitignore`).
+
+### Deploy automático (webhook EasyPanel)
+
+Cada **push** na branch **`main`** dispara o workflow [`.github/workflows/easypanel-deploy.yml`](../.github/workflows/easypanel-deploy.yml), que chama o webhook de deploy do EasyPanel.
+
+**URL do gatilho** (também configurada no workflow):
+
+`http://3.210.217.206:3000/api/deploy/e0ced917512c130ccc8256373e88926b25f0861faea32fbe`
+
+- É possível rodar o deploy manualmente em **Actions → Deploy EasyPanel → Run workflow**.
+- Se o repositório for **público**, considere mover a URL para um [GitHub Secret](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions) (`EASYPANEL_DEPLOY_URL`) e usar `${{ secrets.EASYPANEL_DEPLOY_URL }}` no `curl`, para não expor o token do path.

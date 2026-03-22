@@ -1,0 +1,17 @@
+# Dispara o webhook de deploy do EasyPanel após push na branch main.
+# URL configurada no serviço EasyPanel (Deploy Webhook).
+name: Deploy EasyPanel
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  trigger-easypanel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Chamar webhook de deploy
+        run: |
+          curl -fsS --connect-timeout 30 --max-time 120 \
+            "http://3.210.217.206:3000/api/deploy/e0ced917512c130ccc8256373e88926b25f0861faea32fbe"
