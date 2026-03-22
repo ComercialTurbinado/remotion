@@ -1,0 +1,4 @@
+# EasyPanel / Railway / Nixpacks: não usar `npm start` (Remotion Studio).
+# Sobe a API HTTP com /health e /render.
+[start]
+cmd = "node scripts/http-server.mjs"

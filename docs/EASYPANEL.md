@@ -13,10 +13,16 @@ Este repositório inclui um **Dockerfile** e o script **`scripts/http-server.mjs
 
 ## EasyPanel (resumo)
 
-1. Crie um app **Docker** apontando para este repositório GitHub.
-2. **Build**: contexto na raiz; Dockerfile padrão `Dockerfile`.
-3. **Porta**: mapeie a porta interna **8080** (ou a que você definir em `PORT`).
-4. **Health check** (opcional): HTTP GET em `/health`.
+1. **Preferível:** app **Docker** a partir do **`Dockerfile`** do repositório (Chrome headless + API estável).
+2. **Se o painel usar Nixpacks** (`npm start` = Remotion Studio): o repo inclui **`nixpacks.toml`** para o comando de start ser **`node scripts/http-server.mjs`** (API com `/health` e `/render`). Faça um novo deploy após o pull.
+3. **Ajuste manual no painel** (se ainda abrir “Remotion Studio” na raiz):
+   - **Start command** → `node scripts/http-server.mjs` (ou `npm run serve:http`)
+   - **Domínio / proxy — porta interna** → **`8080`**, ou a porta definida na variável **`PORT`** do serviço (se o EasyPanel injetar `PORT=3000`, use **3000** no proxy).
+4. **Health check** (opcional): HTTP GET em `/health` (deve responder JSON `{"ok":true,"ready":true}`, não HTML do Studio).
+
+### Sintoma: `curl .../health` devolve HTML “Remotion Studio”
+
+O container ainda está rodando **`remotion studio`**. Corrija o **start command** ou use build por **Dockerfile**, conforme acima.
 
 ## Exemplo de chamada
 
