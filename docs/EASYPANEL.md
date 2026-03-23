@@ -20,6 +20,10 @@ Este repositório inclui um **Dockerfile** e o script **`scripts/http-server.mjs
    - **Domínio / proxy — porta interna** → **`8080`**, ou a porta definida na variável **`PORT`** do serviço (se o EasyPanel injetar `PORT=3000`, use **3000** no proxy).
 4. **Health check** (opcional): HTTP GET em `/health` (deve responder JSON `{"ok":true,"ready":true}`, não HTML do Studio).
 
+### Sintoma: `POST /render` retorna 400 e `libnspr4.so` / “Failed to launch the browser process”
+
+A imagem precisa da biblioteca **libnspr4** (Chrome headless). O `Dockerfile` do repositório inclui o pacote **`libnspr4`**. Faça **rebuild** do serviço após atualizar o Git.
+
 ### Sintoma: `curl .../health` devolve HTML “Remotion Studio”
 
 O container ainda está rodando **`remotion studio`**. Corrija o **start command** ou use build por **Dockerfile**, conforme acima.

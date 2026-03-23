@@ -3,6 +3,7 @@
 FROM node:22-bookworm-slim
 
 RUN apt-get update && apt-get install -y \
+  libnspr4 \
   libnss3 \
   libdbus-1-3 \
   libatk1.0-0 \
