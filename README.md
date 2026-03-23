@@ -119,6 +119,7 @@ npm run serve:http
 - `scripts/http-server.mjs` – API HTTP (`/health`, `/render`) para Docker / EasyPanel.
 - `Dockerfile` – imagem Debian + Chrome headless + servidor HTTP.
 - `docs/EASYPANEL.md` – deploy no EasyPanel e exemplo `curl`.
+- `docs/INTEGRACAO.md` – **integração com outro sistema** (POST `/render`, JSON, imagens, SRT, limitações).
 
 ## Adicionar nova animação (ex.: op6)
 
