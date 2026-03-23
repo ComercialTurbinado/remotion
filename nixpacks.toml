@@ -1,6 +1,9 @@
 # EasyPanel / Nixpacks: API HTTP + dependências do Chrome (Remotion headless).
-# "..." preserva pacotes/comandos que o provider Node já define.
+# Use apenas aptPkgs na fase setup — NÃO rode apt-get manual na fase install (o gerador
+# injeta `sudo` e quebra o build com exit 100 em alguns ambientes).
 # Doc: https://nixpacks.com/docs/configuration/file
+#
+# Se o render ainda falhar com libs do Chrome, faça build pelo Dockerfile da raiz.
 
 [phases.setup]
 aptPkgs = [
@@ -20,12 +23,6 @@ aptPkgs = [
   "libpango-1.0-0",
   "libcairo2",
   "libcups2",
-]
-
-[phases.install]
-cmds = [
-  "...",
-  "export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get install -y --no-install-recommends libnspr4 libnss3 libdbus-1-3 libatk1.0-0 libgbm-dev libasound2 libxrandr2 libxkbcommon-dev libxfixes3 libxcomposite1 libxdamage1 libatk-bridge2.0-0 libpango-1.0-0 libcairo2 libcups2 && rm -rf /var/lib/apt/lists/*",
 ]
 
 [phases.build]
