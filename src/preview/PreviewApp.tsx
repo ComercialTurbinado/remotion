@@ -1,13 +1,11 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { Player } from "@remotion/player";
-import type { AnimationId } from "../animations/registry";
-import { isValidAnimationId } from "../animations/registry";
 import {
   COMMON_VIDEO,
   COMPOSITION_MAP,
   FALLBACK_DURATIONS,
 } from "../composition-registry";
-import type { CompositionProps } from "../types/composition-props";
+import { parsePreviewPayloadFromString } from "./preview-payload";
 import { durationInFramesFromSrt } from "../utils/parseSrt";
 
 const DEFAULT_JSON = `{
@@ -23,42 +21,15 @@ const DEFAULT_JSON = `{
   }
 }`;
 
-type ParsedPayload = {
-  animation: AnimationId;
-  inputProps: CompositionProps;
-};
-
-function parsePayload(raw: string): ParsedPayload {
-  let data: unknown;
-  try {
-    data = JSON.parse(raw);
-  } catch {
-    throw new Error("JSON inválido");
-  }
-  if (!data || typeof data !== "object") {
-    throw new Error("O corpo deve ser um objeto JSON");
-  }
-  const obj = data as Record<string, unknown>;
-  const animation = obj.animation;
-  if (typeof animation !== "string" || !isValidAnimationId(animation)) {
-    throw new Error(`animation deve ser um id válido (ex.: op1 … op6). Recebido: ${String(animation)}`);
-  }
-  const inputProps: CompositionProps = {
-    input: obj.input as CompositionProps["input"],
-    subtitlesSrt: typeof obj.subtitlesSrt === "string" ? obj.subtitlesSrt : undefined,
-  };
-  return { animation, inputProps };
-}
-
 export const PreviewApp: React.FC = () => {
   const [jsonText, setJsonText] = useState(DEFAULT_JSON);
   const [error, setError] = useState<string | null>(null);
-  const [active, setActive] = useState<ParsedPayload>(() => parsePayload(DEFAULT_JSON));
+  const [active, setActive] = useState(() => parsePreviewPayloadFromString(DEFAULT_JSON));
   const [playerKey, setPlayerKey] = useState(0);
 
   const apply = useCallback(() => {
     try {
-      const p = parsePayload(jsonText);
+      const p = parsePreviewPayloadFromString(jsonText);
       setError(null);
       setActive(p);
       setPlayerKey((k) => k + 1);

@@ -21,7 +21,8 @@ Este documento orienta como **outro sistema** (CRM, CMS, fila de jobs, n8n, back
 | Método | Caminho | Uso |
 |--------|---------|-----|
 | **GET** | `/health` | Verificar se o serviço está no ar. Resposta esperada: JSON `{"ok":true,"ready":true}`. Se vier HTML “Remotion Studio”, o deploy está com comando errado — ver [EASYPANEL.md](./EASYPANEL.md). |
-| **GET** | `/preview` | Página no navegador com **Player** do Remotion: cole o mesmo JSON do `POST /render` e visualize sem gerar MP4. O arquivo `public/preview.bundle.js` **não vai no Git**; o deploy deve rodar `npm run build:preview` (Nixpacks `phases.build` ou `Dockerfile`). Se faltar, o servidor tenta gerar na subida. |
+| **GET** | `/preview` | Página de **teste** com textarea + botão: mesmo JSON do `POST /render`, útil para ajustar payload manualmente. |
+| **POST** | `/preview` | **Mesmo body** do `POST /render` (`Content-Type: application/json`). Resposta **`text/html`**: tela **só com a animação** (Player sem barras de controle), fundo preto, ideal para **gravação de tela** no browser. Erros de validação: **400** com JSON `{ "error": "..." }`. |
 | **POST** | `/render` | Enviar payload JSON e receber o MP4. |
 
 **Exemplo (health):**
@@ -38,6 +39,18 @@ curl -sS -X POST "https://n8n-srcleads-remotion.dtna1d.easypanel.host/render" \
   -d @payload.json \
   --output video.mp4
 ```
+
+**Exemplo (preview só animação — HTML para abrir no browser e gravar tela):**
+
+```bash
+curl -sS -X POST "https://n8n-srcleads-remotion.dtna1d.easypanel.host/preview" \
+  -H "Content-Type: application/json" \
+  -d @payload.json \
+  --output preview-run.html
+# Abra preview-run.html no Chrome (File → Open): CSS/JS vêm com URL absoluta do mesmo host.
+```
+
+Os arquivos `public/preview.bundle.js` e `public/preview-embed.bundle.js` **não vão no Git**; o deploy deve rodar `npm run build:preview` (Nixpacks `phases.build` ou `Dockerfile`). Se faltar, o servidor tenta gerar na subida.
 
 ### Boas práticas na integração
 

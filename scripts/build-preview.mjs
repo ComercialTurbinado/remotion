@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
- * Empacota a página de preview (React + @remotion/player) para `public/preview.bundle.js`.
- * Rode após `npm install` ou quando alterar `src/preview/**`.
+ * Empacota o preview:
+ * - public/preview.bundle.js — UI com textarea (GET /preview)
+ * - public/preview-embed.bundle.js — só Player (POST /preview → HTML)
  */
 import * as esbuild from "esbuild";
 import path from "path";
@@ -9,15 +10,13 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
-const entry = path.join(rootDir, "src/preview/index.tsx");
-const outfile = path.join(rootDir, "public/preview.bundle.js");
+const outdir = path.join(rootDir, "public");
 
 const prod = process.env.NODE_ENV === "production";
 
-await esbuild.build({
-  entryPoints: [entry],
+const shared = {
   bundle: true,
-  outfile,
+  outdir,
   format: "iife",
   platform: "browser",
   jsx: "automatic",
@@ -27,6 +26,15 @@ await esbuild.build({
   define: {
     "process.env.NODE_ENV": JSON.stringify(prod ? "production" : "development"),
   },
+};
+
+await esbuild.build({
+  ...shared,
+  entryPoints: {
+    "preview.bundle": path.join(rootDir, "src/preview/index.tsx"),
+    "preview-embed.bundle": path.join(rootDir, "src/preview/embed.tsx"),
+  },
+  entryNames: "[name]",
 });
 
-console.log("[build-preview] wrote", outfile);
+console.log("[build-preview] wrote public/preview.bundle.js + public/preview-embed.bundle.js");

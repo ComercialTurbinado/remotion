@@ -8,3 +8,5 @@ out/
 *.log
 public/preview.bundle.js
 public/preview.bundle.js.map
+public/preview-embed.bundle.js
+public/preview-embed.bundle.js.map
