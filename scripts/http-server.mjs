@@ -12,11 +12,12 @@
  *
  * Resposta: arquivo MP4 (video/mp4) ou JSON de erro.
  */
+import { execSync } from "child_process";
+import { randomUUID } from "crypto";
 import express from "express";
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { randomUUID } from "crypto";
 import {
   bundleProject,
   getRootDir,
@@ -97,8 +98,20 @@ app.post("/render", (req, res) => {
 async function main() {
   const previewBundle = path.join(publicDir, "preview.bundle.js");
   if (!fs.existsSync(previewBundle)) {
+    console.warn("[http] preview.bundle.js ausente — tentando `npm run build:preview` agora…");
+    try {
+      execSync("node scripts/build-preview.mjs", {
+        cwd: rootDir,
+        stdio: "inherit",
+        env: process.env,
+      });
+    } catch (e) {
+      console.error("[http] Falha ao gerar preview.bundle.js:", e);
+    }
+  }
+  if (!fs.existsSync(previewBundle)) {
     console.warn(
-      "[http] Aviso: public/preview.bundle.js não encontrado — rode `npm run build:preview` para usar GET /preview."
+      "[http] GET /preview ainda sem JS estático; confira build (Nixpacks/Docker) ou `esbuild` em dependencies."
     );
   }
   console.log("[http] Bundling Remotion (primeira carga)...");

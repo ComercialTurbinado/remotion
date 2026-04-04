@@ -21,7 +21,7 @@ Este documento orienta como **outro sistema** (CRM, CMS, fila de jobs, n8n, back
 | Método | Caminho | Uso |
 |--------|---------|-----|
 | **GET** | `/health` | Verificar se o serviço está no ar. Resposta esperada: JSON `{"ok":true,"ready":true}`. Se vier HTML “Remotion Studio”, o deploy está com comando errado — ver [EASYPANEL.md](./EASYPANEL.md). |
-| **GET** | `/preview` | Página no navegador com **Player** do Remotion: cole o mesmo JSON do `POST /render` e visualize sem gerar MP4. Útil para validar dados e layout. Em produção, restrinja o acesso se o payload for sensível. |
+| **GET** | `/preview` | Página no navegador com **Player** do Remotion: cole o mesmo JSON do `POST /render` e visualize sem gerar MP4. O arquivo `public/preview.bundle.js` **não vai no Git**; o deploy deve rodar `npm run build:preview` (Nixpacks `phases.build` ou `Dockerfile`). Se faltar, o servidor tenta gerar na subida. |
 | **POST** | `/render` | Enviar payload JSON e receber o MP4. |
 
 **Exemplo (health):**
