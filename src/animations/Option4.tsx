@@ -429,7 +429,7 @@ export const Option4: React.FC<Option4Props> = ({ input, subtitlesSrt }) => {
         </div>
       ) : null}
 
-      <SrtOverlay content={subtitlesSrt} position="center" />
+      <SrtOverlay content={subtitlesSrt} position="center" revealMode="words" />
 
       <div
         style={{

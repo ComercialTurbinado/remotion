@@ -8,6 +8,7 @@ import {
   type ListingData,
 } from "../types/listing";
 import type { CompositionProps } from "../types/composition-props";
+import { resolveBrandPrimaryColor } from "../utils/brand-colors";
 
 type Option2SubtleProps = CompositionProps;
 
@@ -73,6 +74,7 @@ export const Option2Subtle: React.FC<Option2SubtleProps> = ({ input, subtitlesSr
   const quartos = pickInfoValue(listing, "quartos");
   const areaTotal = pickInfoValue(listing, "area");
   const valor = displayPrice(listing);
+  const brandPrimary = resolveBrandPrimaryColor(listing);
 
   return (
     <AbsoluteFill
@@ -170,7 +172,12 @@ export const Option2Subtle: React.FC<Option2SubtleProps> = ({ input, subtitlesSr
         </p>
       </div>
 
-      <SrtOverlay content={subtitlesSrt} bottom={220} />
+      <SrtOverlay
+        content={subtitlesSrt}
+        bottom={220}
+        revealMode="words"
+        wordHighlightColor={brandPrimary}
+      />
     </AbsoluteFill>
   );
 };

@@ -299,7 +299,7 @@ export const Option3: React.FC<Option3Props> = ({ input, subtitlesSrt }) => {
         </p>
       </div>
 
-      <SrtOverlay content={subtitlesSrt} bottom={280} />
+      <SrtOverlay content={subtitlesSrt} bottom={280} revealMode="words" />
     </AbsoluteFill>
   );
 };

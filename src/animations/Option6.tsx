@@ -1,6 +1,7 @@
 import React from "react";
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
 import { normalizeListing, displayPrice, resolveUrl, type ListingData } from "../types/listing";
+import { resolveBrandColors } from "../utils/brand-colors";
 import type { CompositionProps } from "../types/composition-props";
 
 const DEFAULT_IMAGE_URLS = [
@@ -18,39 +19,6 @@ export const OP6_DEFAULT_DURATION_FRAMES = 900;
 
 function clamp01(v: number): number {
   return Math.max(0, Math.min(1, v));
-}
-
-function resolveBrandColors(listing: ListingData): { primary: string; secondary: string } {
-  const cfg = (listing.design_config ?? {}) as Record<string, unknown>;
-
-  const candidatesPrimary = [
-    cfg.primaryColor,
-    cfg.primary,
-    cfg.corPrincipal,
-    cfg.primary_color,
-    (cfg.colors as any)?.primary,
-    (cfg.brand as any)?.primary,
-  ];
-  const candidatesSecondary = [
-    cfg.secondaryColor,
-    cfg.secondary,
-    cfg.corSecundaria,
-    cfg.secondary_color,
-    (cfg.colors as any)?.secondary,
-    (cfg.brand as any)?.secondary,
-  ];
-
-  const pick = (arr: unknown[]) => {
-    for (const v of arr) {
-      if (typeof v === "string" && v.trim()) return v.trim();
-    }
-    return undefined;
-  };
-
-  return {
-    primary: pick(candidatesPrimary) ?? "#ff7a00",
-    secondary: pick(candidatesSecondary) ?? "#0b0b0b",
-  };
 }
 
 function pickInfoValue(listing: ListingData, icon: string, labelRegex: RegExp): string {
