@@ -6,8 +6,9 @@
  *   PORT — porta (default 8080)
  *
  * Rotas:
- *   GET  /health  — { "ok": true, "ready": true }
- *   POST /render — body JSON igual ao render-from-json (subtitlesPath = caminho no container)
+ *   GET  /health   — { "ok": true, "ready": true }
+ *   GET  /preview  — página HTML com Player (mesmo payload do POST /render)
+ *   POST /render   — body JSON igual ao render-from-json (subtitlesPath = caminho no container)
  *
  * Resposta: arquivo MP4 (video/mp4) ou JSON de erro.
  */
@@ -47,9 +48,17 @@ const app = express();
 app.disable("x-powered-by");
 app.use(express.json({ limit: "32mb" }));
 
+const publicDir = path.join(rootDir, "public");
+
 app.get("/health", (_req, res) => {
   res.json({ ok: true, ready: true });
 });
+
+app.get("/preview", (_req, res) => {
+  res.sendFile(path.join(publicDir, "preview.html"));
+});
+
+app.use(express.static(publicDir));
 
 app.post("/render", (req, res) => {
   enqueueRender(async () => {
@@ -86,10 +95,18 @@ app.post("/render", (req, res) => {
 });
 
 async function main() {
+  const previewBundle = path.join(publicDir, "preview.bundle.js");
+  if (!fs.existsSync(previewBundle)) {
+    console.warn(
+      "[http] Aviso: public/preview.bundle.js não encontrado — rode `npm run build:preview` para usar GET /preview."
+    );
+  }
   console.log("[http] Bundling Remotion (primeira carga)...");
   await getServeUrl();
   app.listen(PORT, "0.0.0.0", () => {
-    console.log(`[http] listening on 0.0.0.0:${PORT} (POST /render, GET /health)`);
+    console.log(
+      `[http] listening on 0.0.0.0:${PORT} (GET /health, GET /preview, POST /render)`
+    );
   });
 }
 

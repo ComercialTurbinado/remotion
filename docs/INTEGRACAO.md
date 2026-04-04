@@ -21,18 +21,19 @@ Este documento orienta como **outro sistema** (CRM, CMS, fila de jobs, n8n, back
 | Método | Caminho | Uso |
 |--------|---------|-----|
 | **GET** | `/health` | Verificar se o serviço está no ar. Resposta esperada: JSON `{"ok":true,"ready":true}`. Se vier HTML “Remotion Studio”, o deploy está com comando errado — ver [EASYPANEL.md](./EASYPANEL.md). |
+| **GET** | `/preview` | Página no navegador com **Player** do Remotion: cole o mesmo JSON do `POST /render` e visualize sem gerar MP4. Útil para validar dados e layout. Em produção, restrinja o acesso se o payload for sensível. |
 | **POST** | `/render` | Enviar payload JSON e receber o MP4. |
 
 **Exemplo (health):**
 
 ```bash
-curl -sS "https://SEU_DOMINIO/health"
+curl -sS "https://n8n-srcleads-remotion.dtna1d.easypanel.host/health"
 ```
 
 **Exemplo (render + salvar arquivo):**
 
 ```bash
-curl -sS -X POST "https://SEU_DOMINIO/render" \
+curl -sS -X POST "https://n8n-srcleads-remotion.dtna1d.easypanel.host/render" \
   -H "Content-Type: application/json" \
   -d @payload.json \
   --output video.mp4
@@ -53,7 +54,7 @@ curl -sS -X POST "https://SEU_DOMINIO/render" \
 
 | Campo | Obrigatório | Descrição |
 |-------|-------------|-----------|
-| **`animation`** | Sim | Um de: `op1`, `op2`, `op3`, `op4`, `op5`. Define qual template de vídeo será renderizado. |
+| **`animation`** | Sim | Um de: `op1`, `op2`, `op3`, `op4`, `op5`, `op6`. Define qual template de vídeo será renderizado. |
 | **`input`** | Não | Objeto com `listing` e opcionalmente `baseUrl` (veja abaixo). Se omitido, entram valores padrão de demonstração. |
 | **`subtitlesSrt`** | Não | String UTF-8 com o **conteúdo completo** de um arquivo `.srt`. Recomendado para integração HTTP. |
 | **`subtitlesPath`** | Não | Caminho de arquivo `.srt` no **disco do servidor** (útil só em CLI/Docker com volume montado; **não** use para cliente remoto). |
@@ -83,6 +84,7 @@ Os tipos TypeScript estão em [`src/types/listing.ts`](../src/types/listing.ts).
 | `prices` | objeto | Ex.: `{ "Venda": "R$ 1.200.000" }` ou `{ "Locação": "R$ 5.000" }` — o primeiro disponível é exibido como preço principal |
 | `address`, `city`, `state` | string | Montam o endereço exibido |
 | `client` | objeto | `logo_url`, `phone`, `email`, `website`, `instagram` — tela final / assinatura conforme a op |
+| `design_config` | objeto | Configuração visual. Hoje é usado principalmente em `op6` para receber as cores predominantes: define a cor `primary` (destaque/fundo de blocos) e `secondary` (tons complementares). Aceita `primaryColor`/`secondaryColor` e aliases como `primary`, `secondary`, `primary_color`/`secondary_color`, `corPrincipal`/`corSecundaria` e ainda `colors: { primary, secondary }` ou `brand: { primary, secondary }`. Use cores CSS (ex.: `#ff7a00`, `rgb(17,24,39)`). Para o texto do topo, opcionalmente: `title`/`headline`/`titulo`/`propertyTitle`/`nomeTipo`. |
 
 ### Imagens (fundo / carrossel)
 
@@ -111,7 +113,7 @@ Referência de ícones: [Google Material Symbols](https://fonts.google.com/icons
 - O conteúdo deve estar em **UTF-8**, no formato **SubRip (.srt)**.
 - Envie no JSON na propriedade **`subtitlesSrt`** (string multilinha).
 - Com SRT válido, a **duração** do vídeo pode ser calculada até o fim da última legenda (+ margem curta). Sem SRT, usa a duração fixa de cada `animation` no `Root`.
-- **Quais ops mostram legenda na tela:** hoje **`op2`**, **`op3`** e **`op4`** renderizam o componente de legenda (`SrtOverlay`). Em **`op1`** e **`op5`** o SRT **não** é desenhado no layout, mas ainda influencia **duração** se você passar `subtitlesSrt`.
+- **Quais ops mostram legenda na tela:** hoje **`op2`**, **`op3`** e **`op4`** renderizam o componente de legenda (`SrtOverlay`). Em **`op1`**, **`op5`** e **`op6`** o SRT **não** é desenhado no layout, mas ainda influencia **duração** se você passar `subtitlesSrt`.
 
 Detalhes e comparação com FFmpeg: [LEGENDAS.md](./LEGENDAS.md).
 
@@ -140,6 +142,7 @@ No JSON, use `\n` ou string real com quebras de linha (dependendo de como seu si
 | `op3` | Barra superior + infos em vidro + legenda (SRT). |
 | `op4` | Abertura rápida + slideshow + assinatura + legenda (SRT). |
 | `op5` | Painel vidro compacto (preço, endereço, cards, lazer); **sem** overlay SRT no layout; SRT só afeta duração se enviado. |
+| `op6` | Card estilo “flyer” com preço/características/contatos; **sem** overlay SRT no layout (SRT só afeta duração). |
 
 ---
 
@@ -203,6 +206,6 @@ Exemplo com legenda inline (trecho curto):
 - [ ] URL base **`/health`** retorna JSON `ok` / `ready`.
 - [ ] **`POST /render`** com `Content-Type: application/json` e timeout longo.
 - [ ] Imagens: URLs **https** acessíveis pelo servidor de render.
-- [ ] **`animation`** ∈ `op1` … `op5`.
-- [ ] Legenda: **`subtitlesSrt`** em UTF-8 (SRT); para legenda na tela preferir **`op2`**, **`op3`** ou **`op4`**.
+- [ ] **`animation`** ∈ `op1` … `op6`.
+- [ ] Legenda: **`subtitlesSrt`** em UTF-8 (SRT); para legenda na tela preferir **`op2`**, **`op3`** ou **`op4`** (em **`op1`**, **`op5`** e **`op6`** o SRT só afeta duração, se aplicável).
 - [ ] Não enviar URLs de **vídeo** no lugar de imagem no carrossel (não suportado no código atual).

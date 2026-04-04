@@ -1,6 +1,6 @@
 # Remotion – Repositório de animações
 
-Animações em [Remotion](https://www.remotion.dev/) para uso em servidor (browserless). Cada animação tem um **id** (`op1` … `op5`). Você envia um JSON com o id e os dados; o servidor gera o MP4.
+Animações em [Remotion](https://www.remotion.dev/) para uso em servidor (browserless). Cada animação tem um **id** (`op1` … `op6`). Você envia um JSON com o id e os dados; o servidor gera o MP4.
 
 ## Animações disponíveis
 
@@ -11,6 +11,7 @@ Animações em [Remotion](https://www.remotion.dev/) para uso em servidor (brows
 | `op3` | Slideshow com barra topo (logo + WhatsApp) e infos em vidro |
 | `op4` | Abertura rápida em 4 fotos (zoom-out) → slideshow lento → assinatura estilo op1 |
 | `op5` | Slideshow + painel vidro compacto com infos (preço, endereço, cards, lazer) |
+| `op6` | Card estilo “flyer” com preço/características/contatos |
 
 ## Como rodar no Studio
 
@@ -19,7 +20,7 @@ npm install
 npm start
 ```
 
-Abre o Remotion Studio. Selecione a composição desejada (`op1`–`op5`) no dropdown.
+Abre o Remotion Studio. Selecione a composição desejada (`op1`–`op6`) no dropdown.
 
 ## Renderizar vídeo (CLI)
 
@@ -61,7 +62,7 @@ Formato esperado:
 }
 ```
 
-- **animation**: obrigatório. Um de `op1`, `op2`, `op3`, `op4`, `op5`.
+- **animation**: obrigatório. Um de `op1`, `op2`, `op3`, `op4`, `op5`, `op6`.
 - **input**: opcional. Objeto passado para a composição (estrutura em `src/types/listing.ts`; todas as ops listadas usam `normalizeListing`).
 - **output**: opcional. Caminho do MP4 (default: `out/video.mp4`). Pode ser absoluto ou relativo ao cwd.
 - **subtitlesPath** ou **subtitlesSrt**: opcional. Legenda em formato SRT — ver [docs/LEGENDAS.md](docs/LEGENDAS.md).
@@ -108,11 +109,11 @@ npm run serve:http
 ## Estrutura do projeto
 
 - `src/index.ts` – entry que registra o root.
-- `src/Root.tsx` – registra as composições `op1`–`op5`.
+- `src/Root.tsx` – registra as composições `op1`–`op6`.
 - `src/animations/registry.ts` – lista de ids de animações.
 - `src/components/SrtOverlay.tsx` – legendas a partir de texto SRT.
 - `docs/LEGENDAS.md` – Remotion vs FFmpeg para legendas.
-- `src/SpinningBoxes.tsx` – animação `op1`; `src/animations/Option4.tsx` (`op4`), `Option5.tsx` (`op5`).
+- `src/SpinningBoxes.tsx` – animação `op1`; `src/animations/Option4.tsx` (`op4`), `Option5.tsx` (`op5`), `Option6.tsx` (`op6`).
 - `src/types/listing.ts` – tipos e defaults do payload do listing.
 - `scripts/render-from-json.mjs` – script de render headless que lê JSON e gera MP4.
 - `scripts/render-core.mjs` – núcleo compartilhado (bundle + `renderMedia`).

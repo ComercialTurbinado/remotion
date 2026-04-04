@@ -11,7 +11,7 @@ import { selectComposition, renderMedia } from "@remotion/renderer";
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
 /** Manter alinhado com src/animations/registry.ts */
-export const ANIMATION_IDS = ["op1", "op2", "op3", "op4", "op5"];
+export const ANIMATION_IDS = ["op1", "op2", "op3", "op4", "op5", "op6"];
 
 export function getRootDir() {
   return path.resolve(__dirname, "..");

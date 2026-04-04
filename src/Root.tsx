@@ -1,28 +1,14 @@
 import React from "react";
 import { Composition, type CalculateMetadataFunction } from "remotion";
-import { SpinningBoxes } from "./SpinningBoxes";
-import { Option2Subtle } from "./animations/Option2Subtle";
-import { Option3 } from "./animations/Option3";
-import { Option4, OP4_DEFAULT_DURATION_FRAMES } from "./animations/Option4";
-import { Option5, OP5_DEFAULT_DURATION_FRAMES } from "./animations/Option5";
+import { COMMON_VIDEO, COMPOSITION_MAP, FALLBACK_DURATIONS } from "./composition-registry";
 import type { CompositionProps } from "./types/composition-props";
 import { DEMO_SRT } from "./fixtures/demo-legenda.srt";
 import { durationInFramesFromSrt } from "./utils/parseSrt";
 
-const COMMON_PROPS = {
-  fps: 30 as const,
-  width: 1080,
-  height: 1920,
-};
+const COMMON_PROPS = COMMON_VIDEO;
 
 /** Duração padrão quando não há SRT (ou SRT inválido). Com SRT, o vídeo segue o fim da última legenda. */
-const DEFAULT_DURATIONS = {
-  op1: 930,
-  op2: 900,
-  op3: 900,
-  op4: OP4_DEFAULT_DURATION_FRAMES,
-  op5: OP5_DEFAULT_DURATION_FRAMES,
-} as const;
+const DEFAULT_DURATIONS = FALLBACK_DURATIONS;
 
 function makeSrtAwareMetadata(
   fallbackFrames: number
@@ -46,7 +32,7 @@ export const RemotionRoot: React.FC = () => {
       {/* op1: animação principal (boxes + carrossel + infos + tela final) */}
       <Composition
         id="op1"
-        component={SpinningBoxes}
+        component={COMPOSITION_MAP.op1}
         durationInFrames={DEFAULT_DURATIONS.op1}
         calculateMetadata={makeSrtAwareMetadata(DEFAULT_DURATIONS.op1)}
         {...COMMON_PROPS}
@@ -60,7 +46,7 @@ export const RemotionRoot: React.FC = () => {
       {/* op2: slideshow fullscreen sutil com infos no topo esquerdo */}
       <Composition
         id="op2"
-        component={Option2Subtle}
+        component={COMPOSITION_MAP.op2}
         durationInFrames={DEFAULT_DURATIONS.op2}
         calculateMetadata={makeSrtAwareMetadata(DEFAULT_DURATIONS.op2)}
         {...COMMON_PROPS}
@@ -75,7 +61,7 @@ export const RemotionRoot: React.FC = () => {
       {/* op3: fullscreen + barra topo (logo | WhatsApp) + infos em vidro que sobem */}
       <Composition
         id="op3"
-        component={Option3}
+        component={COMPOSITION_MAP.op3}
         durationInFrames={DEFAULT_DURATIONS.op3}
         calculateMetadata={makeSrtAwareMetadata(DEFAULT_DURATIONS.op3)}
         {...COMMON_PROPS}
@@ -90,7 +76,7 @@ export const RemotionRoot: React.FC = () => {
       {/* op4: 4 fotos muito rápidas (zoom-out) → slideshow lento → assinatura como op1 */}
       <Composition
         id="op4"
-        component={Option4}
+        component={COMPOSITION_MAP.op4}
         durationInFrames={DEFAULT_DURATIONS.op4}
         calculateMetadata={makeSrtAwareMetadata(DEFAULT_DURATIONS.op4)}
         {...COMMON_PROPS}
@@ -105,9 +91,23 @@ export const RemotionRoot: React.FC = () => {
       {/* op5: slideshow + painel vidro compacto com infos da op1, item a item */}
       <Composition
         id="op5"
-        component={Option5}
+        component={COMPOSITION_MAP.op5}
         durationInFrames={DEFAULT_DURATIONS.op5}
         calculateMetadata={makeSrtAwareMetadata(DEFAULT_DURATIONS.op5)}
+        {...COMMON_PROPS}
+        defaultProps={
+          {
+            input: undefined,
+          } satisfies CompositionProps
+        }
+      />
+
+      {/* op6: card estilo "flyer" com preço/características/contatos */}
+      <Composition
+        id="op6"
+        component={COMPOSITION_MAP.op6}
+        durationInFrames={DEFAULT_DURATIONS.op6}
+        calculateMetadata={makeSrtAwareMetadata(DEFAULT_DURATIONS.op6)}
         {...COMMON_PROPS}
         defaultProps={
           {

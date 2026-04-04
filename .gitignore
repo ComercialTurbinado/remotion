@@ -6,3 +6,5 @@ out/
 .env
 .env.*
 *.log
+public/preview.bundle.js
+public/preview.bundle.js.map

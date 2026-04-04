@@ -30,6 +30,7 @@ COPY scripts ./scripts
 COPY public ./public
 
 RUN npm ci
+RUN npm run build:preview
 RUN npx remotion browser ensure
 
 ENV NODE_ENV=production

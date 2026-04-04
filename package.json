@@ -6,6 +6,7 @@
     "postinstall": "patch-package",
     "start": "remotion studio src/index.ts",
     "build": "remotion bundle src/index.ts",
+    "build:preview": "node scripts/build-preview.mjs",
     "render": "remotion render src/index.ts op1 out/video.mp4",
     "render:server": "node scripts/render-from-json.mjs",
     "serve:http": "node scripts/http-server.mjs"
@@ -29,6 +30,8 @@
     "@remotion/bundler": "^4.0.0",
     "@remotion/cli": "^4.0.0",
     "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.7",
+    "esbuild": "^0.25.0",
     "patch-package": "^8.0.0",
     "typescript": "^5.0.0"
   }

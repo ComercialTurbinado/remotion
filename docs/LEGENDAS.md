@@ -2,13 +2,13 @@
 
 ## Remotion (neste projeto)
 
-As composições **op1**–**op5** aceitam a prop opcional **`subtitlesSrt`**: o texto completo do arquivo `.srt` em UTF-8. O componente `SrtOverlay` sincroniza pelo tempo do vídeo (`frame / fps`).
+As composições **op1**–**op6** aceitam a prop opcional **`subtitlesSrt`**: o texto completo do arquivo `.srt` em UTF-8. O componente `SrtOverlay` sincroniza pelo tempo do vídeo (`frame / fps`).
 
 ### Duração do vídeo e o SRT
 
 Quando **`subtitlesSrt`** está preenchido (e o arquivo parseia com pelo menos uma cue), a **duração da composição** passa a ser calculada automaticamente: do início até o **fim da última legenda**, mais cerca de **0,5 s** de margem. Assim o MP4 acompanha o roteiro da legenda.
 
-Sem SRT (ou SRT vazio/inválido), vale a duração fixa definida em `src/Root.tsx` para cada id (ex.: `op1` ~31 s, `op2`/`op3`/`op5` ~30 s, `op4` ~29 s a 30 fps — valores aproximados).
+Sem SRT (ou SRT vazio/inválido), vale a duração fixa definida em `src/Root.tsx` para cada id (ex.: `op1` ~31 s, `op2`/`op3`/`op5`/`op6` ~30 s, `op4` ~29 s a 30 fps — valores aproximados).
 
 ### Studio
 
